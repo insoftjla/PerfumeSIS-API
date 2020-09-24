@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title>PerfumeSS</title>
+    <link rel="stylesheet"/>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+</head>
+<body>
+<div>
+    <form action="/login" enctype="application/json" method="post">
+        <div>
+            <input type="text" name="username" placeholder="Username">
+        </div>
+        <div>
+            <input type="text" name="password" placeholder="Password">
+        </div>
+        <div>
+            <input type="submit" value="Sign">
+        </div>
+    </form>
+
+
+    <form action="/logout" enctype="application/json" method="post">
+
+        <div>
+            <input type="submit" value="Sign">
+        </div>
+    </form>
+</div>
+<div><a href="/logout">Logout</a></div>
+<div></div>
+</body>
+</html>
