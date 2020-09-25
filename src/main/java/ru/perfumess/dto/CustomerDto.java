@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.perfumess.model.Location;
 import ru.perfumess.model.Status;
 
 import java.util.Date;
@@ -22,8 +21,8 @@ public class CustomerDto {
     private Date updated;
     private Status status;
     private String username;
-    private String firstName;
-    private String lastName;
+    private String firstname;
+    private String lastname;
     private String patronymic;
     private String email;
     private List<RoleDto> roles;

@@ -20,8 +20,8 @@ public class AuthUserFactory {
         return new AuthUser(
                 customer.getId(),
                 customer.getUsername(),
-                customer.getFirstName(),
-                customer.getLastName(),
+                customer.getFirstname(),
+                customer.getLastname(),
                 customer.getPassword(),
                 customer.getEmail(),
                 customer.getStatus().equals(Status.ACTIVE),

@@ -18,6 +18,7 @@ import ru.perfumess.services.CustomerService;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.security.Principal;
 
 /**
@@ -116,7 +117,7 @@ public class AuthController {
      * customer
      */
     @PostMapping("/registration")
-    public Response registration(@RequestBody Customer customer) {
+    public Response registration(@RequestBody @Valid Customer customer) {
         if (customerService.getByUsername(customer.getUsername()) != null)
             return new Response(406, "Username Already Exists");
         if (customerService.getByEmail(customer.getEmail()) != null)

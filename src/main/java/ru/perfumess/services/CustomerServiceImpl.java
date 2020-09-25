@@ -70,8 +70,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer update(Customer customer, CustomerDto updateData) {
-        if (updateData.getFirstName() != null) customer.setFirstName(updateData.getFirstName());
-        if (updateData.getLastName() != null) customer.setLastName(updateData.getLastName());
+        if (updateData.getFirstname() != null) customer.setFirstname(updateData.getFirstname());
+        if (updateData.getLastname() != null) customer.setLastname(updateData.getLastname());
         if (updateData.getPatronymic() != null) customer.setPatronymic(updateData.getPatronymic());
         if (updateData.getPhotoUrl() != null) customer.setPhotoUrl(updateData.getPhotoUrl());
         customer.setUpdated(new Date());

@@ -4,6 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -17,13 +21,22 @@ import java.util.Set;
 @Table(name = "customers")
 public class Customer extends BaseEntity {
 
+
+
     private String username;
 
+    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
-    private String firstName;
-    private String lastName;
+
+    @NotBlank(message = "Firstname must not be empty")
+    private String firstname;
+
+    private String lastname;
+
     private String patronymic;
+
+    @Email(message = "Invalid formed email address")
     private String email;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
