@@ -19,10 +19,6 @@ import java.util.List;
 @Table(name = "locations")
 public class Location extends BaseEntity{
 
-    @Pattern(regexp = "^\\d{6}$")
-    @NotBlank(message = "Cannot be empty")
-    private Integer postalCode;
-
     @NotBlank(message = "Cannot be empty")
     private String country;
 
@@ -30,12 +26,7 @@ public class Location extends BaseEntity{
     private String city;
 
     @NotBlank(message = "Cannot be empty")
-    private String street;
-
-    @NotBlank(message = "Cannot be empty")
-    private String house;
-
-    private String apartment;
+    private String fullAddress;
 
     @ManyToMany(mappedBy = "locations")
     private List<Customer> customers;

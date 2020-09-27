@@ -16,6 +16,7 @@ public interface CustomerService {
     Customer getByUsername(String userName);
     Customer getByEmail(String email);
     Customer update(Customer customer, CustomerDto updateData);
+    Customer save(Customer customer);
 
     void updatePassword(Customer customer, String password);
 

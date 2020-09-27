@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.perfumess.dto.CustomerDto;
 import ru.perfumess.model.Customer;
@@ -23,6 +23,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Page<Customer> findAll(Pageable pageable) {
@@ -41,7 +42,7 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setStatus(Status.ACTIVE);
         customer.setCreated(new Date());
         customer.setUpdated(new Date());
-        customer.setPassword(new BCryptPasswordEncoder().encode(customer.getPassword()));
+        customer.setPassword(passwordEncoder.encode(customer.getPassword()));
         Customer registerCustomer = customerRepository.save(customer);
 
         log.info("[register] Registered customer (username {}) SUCCESSFULLY", registerCustomer.getUsername());
@@ -79,8 +80,13 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public Customer save(Customer customer) {
+        return customerRepository.save(customer);
+    }
+
+    @Override
     public void updatePassword(Customer customer, String password){
-        customer.setPassword(new BCryptPasswordEncoder().encode(password));
+        customer.setPassword(passwordEncoder.encode(password));
         customerRepository.save(customer);
         log.info("[updatePassword] Customer (username: {}) UPDATED PASSWORD", customer.getUsername());
     }

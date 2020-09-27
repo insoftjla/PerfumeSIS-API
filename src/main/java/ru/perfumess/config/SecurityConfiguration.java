@@ -1,5 +1,6 @@
 package ru.perfumess.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -18,21 +19,15 @@ import ru.perfumess.security.jwt.JwtTokenProvider;
 
 @Configuration
 @EnableConfigurationProperties
+@RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
 
-    private static String ADMIN_ENDPOINT = "/api/v1/admin/**";
-    private static String USER_ENDPOINT = "/api/v1/**";
-    private static String LOGIN_ENDPOINT = "/api/auth/login";
-    private static String REGISTRATION_ENDPOINT = "/api/auth/registration";
+    private static String ADMIN_ENDPOINT = "/api/v1/customers/**";
+    private static String USER_ENDPOINT = "/api/v1/products/**";
+    private static String LOGIN_ENDPOINT = "/api/v1/auth/login";
+    private static String REGISTRATION_ENDPOINT = "/api/v1/auth/registration";
 
-    private final JwtTokenProvider jwtTokenProvider;
     private final CookieProvider authCookieProvider;
-
-    @Autowired
-    public SecurityConfiguration(JwtTokenProvider jwtTokenProvider, CookieProvider authCookieProvider) {
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.authCookieProvider = authCookieProvider;
-    }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {

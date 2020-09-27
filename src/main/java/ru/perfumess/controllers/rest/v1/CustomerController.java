@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/admin/customers")
+@RequestMapping("/api/v1/customers")
 public class CustomerController {
 
     private final CustomerService customerService;
@@ -31,10 +31,10 @@ public class CustomerController {
     public ResponseEntity<Page<CustomerDto>> findAll(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "size", defaultValue = "10") Integer size,
-            @RequestParam(value = "sort", defaultValue = "firstName") String sort) {
+            @RequestParam(value = "sort", defaultValue = "firstname") String sort) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
         Page<Customer> customerPage = customerService.findAll(pageable);
-        int totalElements = (int) customerPage.getTotalElements();
+        long totalElements = customerPage.getTotalElements();
         List<CustomerDto> list = customerPage
                 .stream()
                 .map(customerMapper::toDto)

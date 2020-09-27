@@ -6,15 +6,22 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ru.perfumess.dto.AuthenticationRequestDto;
 import ru.perfumess.dto.CustomerDto;
+import ru.perfumess.dto.LocationDto;
 import ru.perfumess.mappers.CustomerMapper;
+import ru.perfumess.mappers.LocationMapper;
 import ru.perfumess.model.Customer;
+import ru.perfumess.model.Location;
 import ru.perfumess.model.response.Response;
 import ru.perfumess.security.MyAuthenticationException;
 import ru.perfumess.security.cookies.CookieProvider;
 import ru.perfumess.services.CustomerService;
+import ru.perfumess.services.LocationService;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -29,13 +36,16 @@ import java.security.Principal;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/auth")
+@RequestMapping("/api/v1/auth")
 public class AuthController {
 
     private final CustomerService customerService;
     private final AuthenticationManager authenticationManager;
     private final CookieProvider cookieProvider;
     private final CustomerMapper customerMapper;
+    private final LocationService locationService;
+    private final LocationMapper locationMapper;
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * GET
@@ -173,7 +183,7 @@ public class AuthController {
     }
 
     /**
-     * PUT "/updatePassword"
+     * PUT "/password"
      * body {
      * password: string
      * }
@@ -182,14 +192,35 @@ public class AuthController {
      * 200 - "OK"
      * 401 - "Password cannot be empty"
      */
-    @PutMapping("/updatePassword")
+    @PutMapping("/password")
     public Response updatePassword(
             @RequestBody AuthenticationRequestDto requestDto,
             Principal principal) {
         String password = requestDto.getPassword();
         if (password == null || password.equals("")) return new Response(401, "Password cannot be empty");
         Customer customer = customerService.getByUsername(principal.getName());
+        if (passwordEncoder.matches(password, customer.getPassword())) return new Response(401, "The new password must not be equal to the old one");
         customerService.updatePassword(customer, password);
         return new Response(HttpStatus.OK);
     }
-}
+
+    @PostMapping("/location")
+    public Response addLocation(
+            @RequestBody @Valid LocationDto locationDto,
+            Principal principal){
+        Location location = locationService.add(locationMapper.toLocation(locationDto));
+        Customer customer = customerService.getByUsername(principal.getName());
+        customer.addLocation(location);
+        Customer customerUpdate = customerService.save(customer);
+        return new Response(customerMapper.toDto(customerUpdate), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/location/{id}")
+    public Response removeLocation(
+            @PathVariable Long id,
+            Principal principal){
+        Customer customer = customerService.getByUsername(principal.getName());
+        customer.removeLocation(locationService.getById(id));
+        Customer customerUpdate = customerService.save(customer);
+        return new Response(customerMapper.toDto(customerUpdate), HttpStatus.OK);
+    }}

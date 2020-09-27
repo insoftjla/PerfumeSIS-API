@@ -23,21 +23,31 @@ public class Customer extends BaseEntity {
 
 
 
+    @NotBlank(message = "Not be empty")
+    @Pattern(regexp = "^(\\w{5,20})$", message = "Does not match the pattern (5-20 \\w)")
     private String username;
 
-    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$")
+    @NotBlank(message = "Not be empty")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d\\S]{8,}$", message = "Does not match the pattern")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @NotBlank(message = "Firstname must not be empty")
+    @NotBlank(message = "Not be empty")
     private String firstname;
 
+    @NotBlank(message = "Not be empty")
     private String lastname;
 
+    @NotBlank(message = "Not be empty")
     private String patronymic;
 
+    @NotBlank(message = "Not be empty")
     @Email(message = "Invalid formed email address")
     private String email;
+
+    @NotBlank(message = "Not be empty")
+    @Pattern(regexp = "^(\\+?)(0|[1-9][0-9]{10})$", message = "Does not match the pattern")
+    private String phoneNumber;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
@@ -71,12 +81,14 @@ public class Customer extends BaseEntity {
     public void addLocation(Location location){
         if (locations == null) locations = new ArrayList<>();
         locations.add(location);
+        if (location.getCustomers() == null) location.setCustomers(new ArrayList<>());
         location.getCustomers().add(this);
     }
 
     public void removeLocation(Location location){
         if (locations == null) return;
         locations.remove(location);
+        if (location.getCustomers() == null) return;
         location.getCustomers().remove(this);
     }
 

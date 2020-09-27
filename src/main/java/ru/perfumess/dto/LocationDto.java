@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.perfumess.model.Status;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 @Getter
@@ -13,15 +14,18 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LocationDto {
+
     private Long id;
     private Date created;
     private Date updated;
     private Status status;
 
-    private Integer postalCode;
+    @NotBlank(message = "Cannot be empty")
     private String country;
+    @NotBlank(message = "Cannot be empty")
     private String city;
-    private String street;
-    private String house;
-    private String apartment;
+    @NotBlank(message = "Cannot be empty")
+    private String fullAddress;
 }
+
+
