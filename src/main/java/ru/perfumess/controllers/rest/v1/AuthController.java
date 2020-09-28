@@ -83,7 +83,7 @@ public class AuthController {
      * customer
      */
     @PostMapping("/login")
-    public Response login(@RequestBody AuthenticationRequestDto requestDto, HttpServletResponse httpResponse) {
+    public Response login(@RequestBody @Valid AuthenticationRequestDto requestDto, HttpServletResponse httpResponse) {
         try {
             String username = requestDto.getUsername();
 
@@ -194,7 +194,7 @@ public class AuthController {
      */
     @PutMapping("/password")
     public Response updatePassword(
-            @RequestBody AuthenticationRequestDto requestDto,
+            @RequestBody @Valid AuthenticationRequestDto requestDto,
             Principal principal) {
         String password = requestDto.getPassword();
         if (password == null || password.equals("")) return new Response(401, "Password cannot be empty");

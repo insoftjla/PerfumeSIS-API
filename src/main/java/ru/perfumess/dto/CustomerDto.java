@@ -25,6 +25,7 @@ public class CustomerDto {
     private String lastname;
     private String patronymic;
     private String email;
+    private String phoneNumber;
     private List<RoleDto> roles;
     private String photoUrl;
     private List<LocationDto> locations;
