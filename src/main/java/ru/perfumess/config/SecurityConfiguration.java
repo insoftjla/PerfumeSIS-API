@@ -1,7 +1,6 @@
 package ru.perfumess.config;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,31 +10,22 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import ru.perfumess.security.cookies.CookieConfigurer;
 import ru.perfumess.security.cookies.CookieProvider;
-import ru.perfumess.security.jwt.JwtTokenProvider;
 
 @Configuration
 @EnableConfigurationProperties
 @RequiredArgsConstructor
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private static String ADMIN_ENDPOINT = "/api/v1/customers/**";
-    private static String USER_ENDPOINT = "/api/v1/products/**";
+    private static String USER_ENDPOINT = "/api/v1/auth/**";
     private static String LOGIN_ENDPOINT = "/api/v1/auth/login";
     private static String REGISTRATION_ENDPOINT = "/api/v1/auth/registration";
+    private static String CONTENT_ENDPOINT = "/content/**";
+    private static String PRODUCT_ENDPOINT = "/api/v1/product/**";
 
     private final CookieProvider authCookieProvider;
-
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000")
-                .allowedMethods("*")
-                .allowCredentials(true);
-    }
 
     @Bean
     @Override
@@ -56,6 +46,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
                 .authorizeRequests()
                 .antMatchers(LOGIN_ENDPOINT).permitAll()
                 .antMatchers(REGISTRATION_ENDPOINT).permitAll()
+                .antMatchers(PRODUCT_ENDPOINT).permitAll()
+                .antMatchers(CONTENT_ENDPOINT).permitAll()
                 .antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
                 .antMatchers(USER_ENDPOINT).hasRole("USER")
                 .anyRequest().authenticated()
@@ -68,5 +60,4 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 }

@@ -3,8 +3,12 @@ package ru.perfumess.services;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import ru.perfumess.model.Photo;
+import ru.perfumess.model.Status;
 import ru.perfumess.repo.PhotoRepository;
+
+import java.util.Date;
 
 @Service
 public class PhotoServiceImpl implements PhotoService {
@@ -26,8 +30,11 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
     @Override
-    public void save(Photo photo) {
-        productPhotoRepository.save(photo);
+    public Photo save(Photo photo) {
+        photo.setCreated(new Date());
+        photo.setUpdated(new Date());
+        photo.setStatus(Status.ACTIVE);
+        return productPhotoRepository.save(photo);
     }
 
     @Override

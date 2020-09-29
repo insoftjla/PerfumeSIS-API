@@ -5,11 +5,13 @@ import org.springframework.data.domain.Pageable;
 import ru.perfumess.model.Photo;
 
 public interface PhotoService {
+
     Page<Photo> findAll(Pageable pageable);
 
     Photo getOne(Long id);
 
-    void save(Photo photo);
+    Photo save(Photo photo);
 
     void delete(Photo photo);
+
 }

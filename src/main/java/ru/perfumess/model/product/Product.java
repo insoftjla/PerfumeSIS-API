@@ -5,6 +5,7 @@ import ru.perfumess.model.BaseEntity;
 import ru.perfumess.model.Photo;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -30,6 +31,14 @@ public class Product extends BaseEntity {
     private Integer rating;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "products_photos",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "photo_id"))
     private List<Photo> photos;
+
+    public void addPhoto(Photo photo){
+        if (photos == null) photos = new ArrayList<>();
+    }
 
 }
