@@ -1,6 +1,8 @@
 package ru.perfumess.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.perfumess.model.Location;
 import ru.perfumess.model.Status;
@@ -15,16 +17,26 @@ public class LocationServiceImpl implements LocationService{
     private final LocationRepository locationRepository;
 
     @Override
-    public Location getById(Long id) {
+    public Page<Location> findAll(Pageable pageable) {
+        return locationRepository.findAll(pageable);
+    }
+
+    @Override
+    public Location getOne(Long id) {
         return locationRepository.getOne(id);
     }
 
     @Override
-    public Location add(Location location) {
+    public Location save(Location location) {
         location.setCreated(new Date());
         location.setUpdated(new Date());
         location.setStatus(Status.ACTIVE);
         return locationRepository.save(location);
+    }
+
+    @Override
+    public void delete(Location location) {
+        locationRepository.delete(location);
     }
 
     @Override

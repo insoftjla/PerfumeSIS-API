@@ -32,11 +32,6 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<Customer> findAll() {
-        return customerRepository.findAll();
-    }
-
-    @Override
     public Customer register(Customer customer) {
         Role roleUser = roleRepository.getByName("ROLE_USER");
         customer.addRole(roleUser);
