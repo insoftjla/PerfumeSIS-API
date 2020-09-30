@@ -1,4 +1,4 @@
-package ru.perfumess.controllers.rest.v1;
+package ru.perfumess.controllers.rest.v1.admin;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +17,7 @@ import ru.perfumess.services.PhotoService;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "api/v1/photos/")
-public class PhotoController {
+public class PhotoAdminController {
 
     @Value("${base.url.image}")
     private String baseUrlImage;
