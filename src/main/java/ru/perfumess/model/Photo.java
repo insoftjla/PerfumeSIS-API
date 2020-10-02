@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "url", callSuper = false)
 @Table(name = "photos")
-public class Photo extends BaseEntity {
+public class Photo extends BaseEntity<String> {
 
     private String url;
 }

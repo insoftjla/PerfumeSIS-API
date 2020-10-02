@@ -17,9 +17,12 @@ import java.util.List;
 public class CustomerDto {
 
     private Long id;
-    private Date created;
-    private Date updated;
+    private String createdBy;
+    private Date createdDate;
+    private String updateBy;
+    private Date updatedDate;
     private Status status;
+
     private String username;
     private String firstname;
     private String lastname;

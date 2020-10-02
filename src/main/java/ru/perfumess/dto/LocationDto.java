@@ -16,8 +16,10 @@ import java.util.Date;
 public class LocationDto {
 
     private Long id;
-    private Date created;
-    private Date updated;
+    private String createdBy;
+    private Date createdDate;
+    private String updateBy;
+    private Date updatedDate;
     private Status status;
 
     @NotBlank(message = "Cannot be empty")

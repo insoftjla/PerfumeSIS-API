@@ -31,8 +31,6 @@ public class PhotoServiceImpl implements PhotoService {
 
     @Override
     public Photo save(Photo photo) {
-        photo.setCreated(new Date());
-        photo.setUpdated(new Date());
         photo.setStatus(Status.ACTIVE);
         return productPhotoRepository.save(photo);
     }

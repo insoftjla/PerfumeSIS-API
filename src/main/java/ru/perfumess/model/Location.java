@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Table(name = "locations")
-public class Location extends BaseEntity{
+public class Location extends BaseEntity<String>{
 
     @NotBlank(message = "Cannot be empty")
     private String country;

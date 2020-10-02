@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Table(name = "comments")
-public class Comment extends BaseEntity {
+public class Comment extends BaseEntity<String> {
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Customer customer;

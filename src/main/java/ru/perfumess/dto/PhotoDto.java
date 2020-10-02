@@ -13,9 +13,12 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PhotoDto {
+
     private Long id;
-    private Date created;
-    private Date updated;
+    private String createdBy;
+    private Date createdDate;
+    private String updateBy;
+    private Date updatedDate;
     private Status status;
 
     private String url;

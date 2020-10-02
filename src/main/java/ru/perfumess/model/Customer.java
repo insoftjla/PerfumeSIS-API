@@ -19,7 +19,7 @@ import java.util.Set;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "email", callSuper = false)
 @Table(name = "customers")
-public class Customer extends BaseEntity {
+public class Customer extends BaseEntity<String> {
 
 
 

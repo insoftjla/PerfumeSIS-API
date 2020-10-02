@@ -13,7 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "name", callSuper = false)
 @Table(name = "roles")
-public class Role extends BaseEntity {
+public class Role extends BaseEntity<String> {
 
     private String name;
 
