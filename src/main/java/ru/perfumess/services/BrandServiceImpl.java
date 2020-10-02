@@ -3,6 +3,7 @@ package ru.perfumess.services;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import ru.perfumess.model.Status;
 import ru.perfumess.model.product.Brand;
 import ru.perfumess.repo.BrandRepository;
 
@@ -26,8 +27,9 @@ public class BrandServiceImpl implements BrandService{
     }
 
     @Override
-    public void save(Brand brand) {
-        brandRepository.save(brand);
+    public Brand save(Brand brand) {
+        brand.setStatus(Status.ACTIVE);
+        return brandRepository.save(brand);
     }
 
     @Override

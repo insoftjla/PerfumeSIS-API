@@ -3,6 +3,7 @@ package ru.perfumess.services;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import ru.perfumess.model.Status;
 import ru.perfumess.model.product.Product;
 import ru.perfumess.repo.ProductRepository;
 
@@ -26,8 +27,9 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public void save(Product product) {
-        productRepository.save(product);
+    public Product save(Product product) {
+        product.setStatus(Status.ACTIVE);
+        return productRepository.save(product);
     }
 
     @Override

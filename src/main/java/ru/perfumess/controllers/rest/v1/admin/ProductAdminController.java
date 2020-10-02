@@ -1,42 +1,67 @@
 package ru.perfumess.controllers.rest.v1.admin;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.perfumess.dto.ProductDto;
+import ru.perfumess.mappers.ProductMapper;
+import ru.perfumess.model.Photo;
+import ru.perfumess.model.product.Brand;
 import ru.perfumess.model.product.Product;
-import ru.perfumess.model.response.Response;
 import ru.perfumess.services.ProductService;
 
+import javax.validation.Valid;
+
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(path = "/api/v1/admin/products")
 public class ProductAdminController {
 
     private final ProductService productService;
+    private final ProductMapper productMapper;
 
-    public ProductAdminController(ProductService productService) {
-        this.productService = productService;
+    @PostMapping
+    public ResponseEntity<ProductDto> newProduct(
+            @RequestBody @Valid ProductDto productDto,
+            @RequestParam("brandId") Brand brand,
+            @RequestParam("photoId") Photo photo
+    ) {
+        Product newProduct = productMapper.toProduct(productDto);
+        newProduct.addBrand(brand);
+        newProduct.addPhoto(photo);
+        newProduct = productService.save(newProduct);
+        return new ResponseEntity<>(productMapper.toDto(newProduct), HttpStatus.OK);
     }
 
-    @GetMapping()
-    public Response findAll(
-            @RequestParam(value = "page", defaultValue = "1") Integer page,
-            @RequestParam(value = "size", defaultValue = "20") Integer size,
-            @RequestParam(value = "sort", defaultValue = "name") String sort){
-        Pageable pageable = PageRequest.of(page-1, size, Sort.by(sort));
-        Page<Product> products = productService.findAll(pageable);
-
-        return !products.isEmpty()
-                ? new Response(products, HttpStatus.OK)
-                : new Response(HttpStatus.NOT_FOUND);
+    @PutMapping("/{id}/brand/{brandId}")
+    public ResponseEntity<ProductDto> setBrand(
+            @PathVariable("id") Product product,
+            @PathVariable("brandId") Brand brand
+    ) {
+        product.setBrand(brand);
+        Product updatedProduct = productService.save(product);
+        return new ResponseEntity<>(productMapper.toDto(updatedProduct), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public Response getOne(@PathVariable("id") Product product){
-        return product != null
-                ? new Response(product, HttpStatus.OK)
-                : new Response(HttpStatus.NOT_FOUND);
+    @PutMapping("/{id}/photo/{photoId}")
+    public ResponseEntity<ProductDto> addPhoto(
+            @PathVariable("id") Product product,
+            @PathVariable("photoId") Photo photo
+    ) {
+        product.addPhoto(photo);
+        product = productService.save(product);
+        return new ResponseEntity<>(productMapper.toDto(product), HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}/photo/{photoId}")
+    public ResponseEntity<ProductDto> deletePhoto(
+            @PathVariable("id") Product product,
+            @PathVariable("photoId") Photo photo
+    ) {
+        product.deletePhoto(photo);
+        product = productService.save(product);
+        return new ResponseEntity<>(productMapper.toDto(product), HttpStatus.OK);
+    }
+
 }
