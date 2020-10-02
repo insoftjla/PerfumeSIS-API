@@ -29,7 +29,7 @@ public class ImageSaverServiceImpl implements ImageSaverService {
 
         try (
                 BufferedOutputStream bos =
-                        new BufferedOutputStream(new FileOutputStream(uploadPath + "/" + fullFileName))) {
+                        new BufferedOutputStream(new FileOutputStream(uploadPath + "/image/" + fullFileName))) {
             byte[] bytes = file.getBytes();
             bos.write(bytes);
             return fullFileName;

@@ -27,7 +27,7 @@ import java.security.Principal;
  */
 
 @Slf4j
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/user")
 public class UserController {
@@ -115,7 +115,7 @@ public class UserController {
     public Response addLocation(
             @RequestBody @Valid LocationDto locationDto,
             Principal principal) {
-        Location location = locationService.add(locationMapper.toLocation(locationDto));
+        Location location = locationService.save(locationMapper.toLocation(locationDto));
         Customer customer = customerService.getByUsername(principal.getName());
         customer.addLocation(location);
         Customer customerUpdate = customerService.save(customer);
@@ -127,7 +127,7 @@ public class UserController {
             @PathVariable Long id,
             Principal principal) {
         Customer customer = customerService.getByUsername(principal.getName());
-        customer.removeLocation(locationService.getById(id));
+        customer.removeLocation(locationService.getOne(id));
         Customer customerUpdate = customerService.save(customer);
         return new Response(customerMapper.toDto(customerUpdate), HttpStatus.OK);
     }

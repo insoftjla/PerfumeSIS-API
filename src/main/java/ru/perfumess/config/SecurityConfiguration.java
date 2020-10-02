@@ -19,8 +19,7 @@ import ru.perfumess.security.cookies.CookieProvider;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private static String MAIN_ENDPOINT = "/";
-    private static String LOGIN_ENDPOINT = "/api/v1/login";
-    private static String REGISTRATION_ENDPOINT = "/api/v1/registration";
+    private static String AUTHENTICATION_ENDPOINT = "/api/v1/auth/**";
     private static String ADMIN_ENDPOINT = "/api/v1/admin/**";
     private static String USER_ENDPOINT = "/api/v1/user/**";
     private static String PUBLIC_ENDPOINT = "api/v1/public/**";
@@ -46,8 +45,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(MAIN_ENDPOINT).permitAll()
-                .antMatchers(LOGIN_ENDPOINT).permitAll()
-                .antMatchers(REGISTRATION_ENDPOINT).permitAll()
+                .antMatchers(AUTHENTICATION_ENDPOINT).permitAll()
                 .antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
                 .antMatchers(USER_ENDPOINT).hasRole("USER")
                 .antMatchers(PUBLIC_ENDPOINT).permitAll()

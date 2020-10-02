@@ -28,8 +28,6 @@ public class LocationServiceImpl implements LocationService{
 
     @Override
     public Location save(Location location) {
-        location.setCreated(new Date());
-        location.setUpdated(new Date());
         location.setStatus(Status.ACTIVE);
         return locationRepository.save(location);
     }

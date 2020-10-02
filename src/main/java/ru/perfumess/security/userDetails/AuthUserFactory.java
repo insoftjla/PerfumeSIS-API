@@ -25,7 +25,7 @@ public class AuthUserFactory {
                 customer.getPassword(),
                 customer.getEmail(),
                 customer.getStatus().equals(Status.ACTIVE),
-                customer.getUpdated(),
+                customer.getUpdatedDate(),
                 mapGrantedAuthorities(new ArrayList<>(customer.getRoles()))
         );
     }

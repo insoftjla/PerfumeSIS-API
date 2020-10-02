@@ -36,8 +36,6 @@ public class CustomerServiceImpl implements CustomerService {
         Role roleUser = roleRepository.getByName("ROLE_USER");
         customer.addRole(roleUser);
         customer.setStatus(Status.ACTIVE);
-        customer.setCreated(new Date());
-        customer.setUpdated(new Date());
         customer.setPassword(passwordEncoder.encode(customer.getPassword()));
         Customer registerCustomer = customerRepository.save(customer);
 
@@ -71,7 +69,6 @@ public class CustomerServiceImpl implements CustomerService {
         if (updateData.getLastname() != null) customer.setLastname(updateData.getLastname());
         if (updateData.getPatronymic() != null) customer.setPatronymic(updateData.getPatronymic());
         if (updateData.getPhotoUrl() != null) customer.setPhotoUrl(updateData.getPhotoUrl());
-        customer.setUpdated(new Date());
         return customerRepository.save(customer);
     }
 
