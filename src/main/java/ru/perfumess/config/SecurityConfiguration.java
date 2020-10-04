@@ -22,7 +22,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static String AUTHENTICATION_ENDPOINT = "/api/v1/auth/**";
     private static String ADMIN_ENDPOINT = "/api/v1/admin/**";
     private static String USER_ENDPOINT = "/api/v1/user/**";
-    private static String PUBLIC_ENDPOINT = "api/v1/public/**";
+    private static String PUBLIC_ENDPOINT = "/api/v1/public/**";
     private static String CONTENT_ENDPOINT = "/api/v1/content/**";
 
     private final CookieProvider authCookieProvider;
@@ -46,14 +46,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(MAIN_ENDPOINT).permitAll()
                 .antMatchers(AUTHENTICATION_ENDPOINT).permitAll()
-                .antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
-                .antMatchers(USER_ENDPOINT).hasRole("USER")
                 .antMatchers(PUBLIC_ENDPOINT).permitAll()
                 .antMatchers(CONTENT_ENDPOINT).permitAll()
+                .antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
+                .antMatchers(USER_ENDPOINT).hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
-                .apply(new CookieConfigurer(authCookieProvider))
-        ;
+                .apply(new CookieConfigurer(authCookieProvider));
     }
 
     @Bean

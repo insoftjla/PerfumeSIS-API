@@ -9,15 +9,11 @@ import org.springframework.web.bind.annotation.*;
 import ru.perfumess.dto.CustomerDto;
 import ru.perfumess.mappers.CustomerMapper;
 import ru.perfumess.model.Customer;
-import ru.perfumess.model.response.Response;
 import ru.perfumess.services.CustomerService;
 
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -49,7 +45,7 @@ public class CustomerAdminController {
         try {
             customer = customerService.getOne(id);
             return new ResponseEntity<>(customerMapper.toDto(customer), HttpStatus.OK);
-        }catch (EntityNotFoundException e){
+        } catch (EntityNotFoundException e) {
             log.error("[getOne] Customer (id: {}) NOT FOUND", id);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -66,7 +62,7 @@ public class CustomerAdminController {
         } catch (EntityNotFoundException e) {
             log.error("[getOne] Customer (id: {}) NOT FOUND", id);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (PersistenceException e){
+        } catch (PersistenceException e) {
             log.error("[getOne] Exception message: {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
