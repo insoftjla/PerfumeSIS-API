@@ -28,6 +28,4 @@ public class BrandDto {
 
     @NotBlank
     private String about;
-
-    private Set<ProductDto> products;
 }
