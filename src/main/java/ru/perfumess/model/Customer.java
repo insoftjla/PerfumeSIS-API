@@ -2,6 +2,7 @@ package ru.perfumess.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import ru.perfumess.model.shopping.Basket;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -64,7 +65,6 @@ public class Customer extends BaseEntity<String> {
             joinColumns = @JoinColumn(name = "customers_id"),
             inverseJoinColumns = @JoinColumn(name = "locations_id"))
     private List<Location> locations;
-
 
     public void addRole(Role role) {
         if (roles == null) roles = new ArrayList<>();

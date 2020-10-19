@@ -11,6 +11,7 @@ import ru.perfumess.dto.CustomerDto;
 import ru.perfumess.model.Customer;
 import ru.perfumess.model.Role;
 import ru.perfumess.model.Status;
+import ru.perfumess.model.shopping.Basket;
 import ru.perfumess.repo.CustomerRepository;
 import ru.perfumess.repo.RoleRepository;
 
@@ -23,6 +24,7 @@ import java.util.List;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
+    private final BasketService basketService;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -36,12 +38,9 @@ public class CustomerServiceImpl implements CustomerService {
         Role roleUser = roleRepository.getByName("ROLE_USER");
         customer.addRole(roleUser);
         customer.setStatus(Status.ACTIVE);
+        basketService.save(new Basket(customer));
         customer.setPassword(passwordEncoder.encode(customer.getPassword()));
-        Customer registerCustomer = customerRepository.save(customer);
-
-        log.info("[register] Registered customer (username {}) SUCCESSFULLY", registerCustomer.getUsername());
-
-        return registerCustomer;
+        return customerRepository.save(customer);
     }
 
     @Override
@@ -51,16 +50,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer getByUsername(String username) {
-        Customer result = customerRepository.getByUsername(username);
-        log.info("[getByUsername] Customer (username: {}) {}", username, result != null ? "IS FOUND" : "NOT FOUND");
-        return result;
+        return customerRepository.getByUsername(username);
     }
 
     @Override
     public Customer getByEmail(String email) {
-        Customer result = customerRepository.getByEmail(email);
-        log.info("[getByEmail] Customer (email: {}) {}", email, result != null ? "IS FOUND" : "NOT FOUND");
-        return result;
+        return customerRepository.getByEmail(email);
     }
 
     @Override
@@ -81,13 +76,11 @@ public class CustomerServiceImpl implements CustomerService {
     public void updatePassword(Customer customer, String password){
         customer.setPassword(passwordEncoder.encode(password));
         customerRepository.save(customer);
-        log.info("[updatePassword] Customer (username: {}) UPDATED PASSWORD", customer.getUsername());
     }
 
     @Override
     public void delete(Customer customer) {
         customer.setStatus(Status.DELETED);
         customerRepository.save(customer);
-        log.info("[delete] Delete customer (username: {}) successfully", customer.getUsername());
     }
 }
