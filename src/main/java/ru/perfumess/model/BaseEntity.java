@@ -34,5 +34,5 @@ public class BaseEntity<U> {
     private Date updatedDate;
 
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private Status status = Status.ACTIVE;
 }

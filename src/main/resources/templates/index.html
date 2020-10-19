@@ -1,16 +1,180 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
     <meta charset="UTF-8"/>
     <title>PerfumeSS</title>
-    <link rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/style.css}"/>
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 </head>
 <body>
-<div>
-    <h2>Product</h2>
+<div class="container">
+    <div class="row">
+        <h2>RESTful API для Интернет магазина PerfumeSIS</h2>
+    </div>
+    <hr/>
 
+    <div class="row">
+        <div class="accordion get">
+            <span style="padding-left: 20px;">Base URL </span>
+        </div>
+        <div class="accordion-item">
+            /api/v1/
+        </div>
+    </div>
+<!--    Auth (public)-->
+    <div class="row">
+        <h3>Auth (public)</h3>
+        <dev>
+            <div class="accordion post">
+                <span class="method post">POST</span>
+                /login
+            </div>
+            <div class="accordion-item">
+                <h4>Body</h4>
+                <pre><code>    {
+        username: string
+        password: string
+    }</code></pre>
+                <h4>Response</h4>
+                status OK
+                <pre><code><div id="customer1"></div></code></pre>
+            </div>
+            <div class="accordion post">
+                <span class="method post">POST</span>
+                /registration
+            </div>
+            <div class="accordion-item">
+                <h4>Body</h4>
+                <pre><code>    {
+        "username" : string,
+        "password" : string,
+        "firstname" : string,
+        "lastname" : string,
+        "patronymic" : string,
+        "email" : string,
+        "phoneNumber" : string
+    }</code></pre>
+                <h4>Response</h4>
+                status OK
+                <pre><code><div id="customer2"></div></code></pre>
+            </div>
+        </dev>
+    </div>
+<!--    Product (public) /public/products-->
+    <div class="row">
+        <h3>Product (public) /public/products</h3>
+        <dev>
+            <div class="accordion get">
+                <span class="method get">GET</span>
+            </div>
+            <div class="accordion-item">
+                <h4>Params</h4>
+                    <pre><div id="params1"></div></pre>
+                <h4>Response</h4>
+                status OK<br/>
+                [{product}{product}{product}]
+            </div>
+            <div class="accordion get">
+                <span class="method get">GET</span>
+                /{id}
+            </div>
+            <div class="accordion-item">
+                <h4>Response</h4>
+                status OK<br/>
+                {product}
+            </div>
+        </dev>
+    </div>
+<!--    Brand (public) /public/brands-->
+    <div class="row">
+        <h3>Brand (public) /public/brands</h3>
+        <dev>
+            <div class="accordion get">
+                <span class="method get">GET</span>
+            </div>
+            <div class="accordion-item">
+                <h4>Params</h4>
+                <pre><div id="params2"></div></pre>
+                <h4>Response</h4>
+                status OK<br/>
+                [{brand}{brand}{brand}....]
+            </div>
+        </dev>
+    </div>
+<!--    Photo (public) /public/photo-->
+    <div class="row">
+        <h3>Photo (public) /public/photos</h3>
+        <dev>
+            <div class="accordion get">
+                <span class="method get">GET</span>
+            </div>
+            <div class="accordion-item">
+                <h4>Params</h4>
+                <pre><div id="params3"></div></pre>
+                <h4>Response</h4>
+                status OK<br/>
+                [{photo}{photo}{photo}....]
+            </div>
+        </dev>
+    </div>
 </div>
-<div></div>
+
+<script>
+    const acc = document.getElementsByClassName("accordion");
+    let i;
+
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function () {
+            this.classList.toggle("show");
+            let panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
+            }
+        });
+    }
+</script>
+
+<script>
+    const customer =
+        '   {\n' +
+        '      "id": number,\n' +
+        '      "createdBy": string,\n' +
+        '      "createdDate": string,\n' +
+        '      "updateBy": string,\n' +
+        '      "updatedDate": string,\n' +
+        '      "status": string,\n' +
+        '      "username": string,\n' +
+        '      "firstname": string,\n' +
+        '      "lastname": string,\n' +
+        '      "patronymic": string,\n' +
+        '      "email": string,\n' +
+        '      "phoneNumber": string,\n' +
+        '      "roles": [\n' +
+        '                  {\n' +
+        '                     "id": number,\n' +
+        '                     "createdBy": string,\n' +
+        '                     "createdDate": string,\n' +
+        '                     "updateBy": string,\n' +
+        '                     "updatedDate": string,\n' +
+        '                     "status": string,\n' +
+        '                     "name": string\n' +
+        '                  }\n' +
+        '               ]\n' +
+        '   {'
+    document.getElementById("customer1").innerHTML = customer;
+    document.getElementById("customer2").innerHTML = customer;
+</script>
+
+<script>
+    const params =
+        '    page = 0\n' +
+        '    size = 20\n' +
+        '    sort = name';
+    document.getElementById("params1").innerHTML = params;
+    document.getElementById("params2").innerHTML = params;
+    document.getElementById("params3").innerHTML = params;
+</script>
 </body>
 </html>
