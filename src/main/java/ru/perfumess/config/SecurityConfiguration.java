@@ -18,7 +18,7 @@ import ru.perfumess.security.cookies.CookieProvider;
 @RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private static String MAIN_ENDPOINT = "/";
+    private static String MAIN_ENDPOINT = "/**";
     private static String AUTHENTICATION_ENDPOINT = "/api/v1/auth/**";
     private static String ADMIN_ENDPOINT = "/api/v1/admin/**";
     private static String USER_ENDPOINT = "/api/v1/user/**";
