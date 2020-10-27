@@ -16,7 +16,7 @@
 #### Photo (public) /public/photos
  * GET 
  
-#### Basket (user) /api/v1/user/basket
+#### Basket (user) /user/basket
  * GET
  * PUT <br/>
    Params
@@ -25,7 +25,7 @@
    Params
     * productId
     
-#### User (user) /api/v1/user
+#### User (user) /user
  * GET
  * PUT
  * DELETE
@@ -33,13 +33,13 @@
  * POST /location
  * DELETE /location/{id}
    
-#### Customer (admin) /api/v1/admin/customers
+#### Customer (admin) /admin/customers
  * GET
  * GET /{id}
  * PUT /{id}
  * DELETE /{id}
  
-#### Product (admin) /api/v1/admin/products
+#### Product (admin) /admin/products
  * POST
     * brandId
     * photoId
@@ -47,9 +47,9 @@
  * PUT /{id}/photo/{photoId}
  * DELETE /{id}/photo/{photoId}
  
-#### Photo (admin) api/v1/photos/
+#### Photo (admin) /photos
  * POST /upload
  
-#### Photo (admin) /api/v1/admin/brands
+#### Photo (admin) /admin/brands
  * POST
  * PUT /{id}
