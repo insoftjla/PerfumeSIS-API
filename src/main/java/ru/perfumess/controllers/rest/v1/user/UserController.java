@@ -35,22 +35,8 @@ public class UserController {
 
     private final CustomerService customerService;
     private final CustomerMapper customerMapper;
-    private final LocationService locationService;
-    private final LocationMapper locationMapper;
     private final PasswordEncoder passwordEncoder;
 
-    /**
-     * GET
-     * Возвращает авторизованного покупателя.
-     * Авторизация проверяется по token_api
-     * <p>
-     * resultCode:
-     * 200 - "OK"
-     * 401 - "Token не прошел валидацию"
-     * 404 - "Покупатель не найден"
-     * payload:
-     * customer
-     */
     @GetMapping
     public ResponseEntity<CustomerDto> getAuthCustomerData(Principal principal) {
         Customer customer = customerService.getByUsername(principal.getName());
@@ -59,23 +45,6 @@ public class UserController {
         return new ResponseEntity<>(customerMapper.toDto(customer), HttpStatus.OK);
     }
 
-    /**
-     * PUT
-     * body {
-     * firstName:   string
-     * lastName:    string
-     * patronymic:  string
-     * photoUrl:    string
-     * }
-     * <p>
-     * resultCode:
-     * 200 - "OK"
-     * 404 - "NOT FOUND"
-     * 406 - "Username Already Exists"
-     * 406 - "Email Already Exists"
-     * payload:
-     * customerDto
-     */
     @PutMapping
     public ResponseEntity<CustomerDto> updateAuthData(
             @RequestBody CustomerDto customerDto,
@@ -89,16 +58,6 @@ public class UserController {
         return new ResponseEntity<>(customerMapper.toDto(updatedCustomer), HttpStatus.OK);
     }
 
-    /**
-     * PUT "/password"
-     * body {
-     * password: string
-     * }
-     * <p>
-     * resultCode:
-     * 200 - "OK"
-     * 401 - "Password cannot be empty"
-     */
     @PutMapping("/password")
     public ResponseEntity<CustomerDto> updatePassword(
             @RequestBody @Valid AuthenticationRequestDto requestDto,
