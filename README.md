@@ -50,6 +50,6 @@
 #### Photo (admin) /photos
  * POST /upload
  
-#### Photo (admin) /admin/brands
+#### Brand (admin) /admin/brands
  * POST
  * PUT /{id}
