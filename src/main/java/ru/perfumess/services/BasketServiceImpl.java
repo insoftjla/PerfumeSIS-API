@@ -8,6 +8,8 @@ import ru.perfumess.model.Customer;
 import ru.perfumess.model.shopping.Basket;
 import ru.perfumess.repo.BasketRepository;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class BasketServiceImpl implements BasketService {
@@ -33,7 +35,6 @@ public class BasketServiceImpl implements BasketService {
     public void delete(Basket basket) {
         basketRepository.delete(basket);
     }
-
 
     @Override
     public Basket getByCustomer(Customer customer) {

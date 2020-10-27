@@ -1,6 +1,7 @@
 package ru.perfumess.controllers.rest.v1.publics;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import ru.perfumess.services.PhotoService;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/public/photos")
@@ -35,6 +37,10 @@ public class PhotoController {
     ) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
         Page<Photo> photoPage = photoService.findAll(pageable);
+        if (photoPage.isEmpty()){
+                log.info("[findAll] Photo page IS EMPTY");
+                return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
         long totalElements = photoPage.getTotalElements();
         List<PhotoDto> photoDtoList = photoMapper.toDtos(photoPage.toList());
         Page<PhotoDto> photoDtoPage = new PageImpl<>(photoDtoList, pageable, totalElements);

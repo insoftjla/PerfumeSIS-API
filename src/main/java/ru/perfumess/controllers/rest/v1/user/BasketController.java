@@ -1,6 +1,7 @@
 package ru.perfumess.controllers.rest.v1.user;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import ru.perfumess.services.CustomerService;
 
 import java.security.Principal;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/user/basket")
@@ -26,6 +28,10 @@ public class BasketController {
     public ResponseEntity<BasketDto> getBasket(Principal principal){
         Basket basket = getBasketOfPrincipal(principal);
         BasketDto basketDto = basketMapper.toDto(basket);
+        if (basketDto == null) {
+            log.info("[getBasket] Basket NOT FOUND");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(basketDto, HttpStatus.OK);
     }
 
@@ -35,6 +41,10 @@ public class BasketController {
             Principal principal
     ){
         Basket basket = getBasketOfPrincipal(principal);
+        if (basket == null) {
+            log.info("[addProduct] Basket NOT FOUND");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         basket.addProduct(product);
         basket = basketService.save(basket);
         return new ResponseEntity<>(basketMapper.toDto(basket), HttpStatus.OK);
@@ -46,6 +56,10 @@ public class BasketController {
             Principal principal
     ){
         Basket basket = getBasketOfPrincipal(principal);
+        if (product == null || basket == null){
+            log.info("[addProduct] Product or Basket NOT FOUND");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         basket.deleteProduct(product);
         basket = basketService.save(basket);
         return new ResponseEntity<>(basketMapper.toDto(basket), HttpStatus.OK);

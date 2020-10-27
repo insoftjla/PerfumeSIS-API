@@ -5,5 +5,6 @@ import ru.perfumess.model.Customer;
 import ru.perfumess.model.shopping.Basket;
 
 public interface BasketRepository extends JpaRepository<Basket, Long> {
+
     Basket getBasketByCustomer(Customer customer);
 }

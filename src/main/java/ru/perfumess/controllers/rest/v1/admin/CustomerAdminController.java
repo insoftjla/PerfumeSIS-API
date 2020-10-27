@@ -11,8 +11,6 @@ import ru.perfumess.mappers.CustomerMapper;
 import ru.perfumess.model.Customer;
 import ru.perfumess.services.CustomerService;
 
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.PersistenceException;
 import java.util.List;
 
 @Slf4j
@@ -40,36 +38,30 @@ public class CustomerAdminController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CustomerDto> getOne(@PathVariable Long id) {
-        Customer customer;
-        try {
-            customer = customerService.getOne(id);
-            return new ResponseEntity<>(customerMapper.toDto(customer), HttpStatus.OK);
-        } catch (EntityNotFoundException e) {
-            log.error("[getOne] Customer (id: {}) NOT FOUND", id);
+    public ResponseEntity<CustomerDto> getOne(
+            @PathVariable("id") Customer customer) {
+        if (customer == null) {
+            log.info("[getOne] Customer NOT FOUND");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        return new ResponseEntity<>(customerMapper.toDto(customer), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<CustomerDto> update(
-            @PathVariable Long id,
+            @PathVariable("id") Customer customer,
             @RequestBody CustomerDto customerDto) {
-        try {
-            Customer customer = customerService.getOne(id);
-            Customer updatedCustomer = customerService.update(customer, customerDto);
-            return new ResponseEntity<>(customerMapper.toDto(updatedCustomer), HttpStatus.OK);
-        } catch (EntityNotFoundException e) {
-            log.error("[getOne] Customer (id: {}) NOT FOUND", id);
+
+        if (customer == null) {
+            log.info("[update] Customer NOT FOUND");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (PersistenceException e) {
-            log.error("[getOne] Exception message: {}", e.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        Customer updatedCustomer = customerService.update(customer, customerDto);
+        return new ResponseEntity<>(customerMapper.toDto(updatedCustomer), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    @ResponseStatus(code = HttpStatus.OK)
     public void delete(
             @PathVariable("id") Customer customer) {
         customerService.delete(customer);

@@ -1,6 +1,7 @@
 package ru.perfumess.controllers.rest.v1.publics;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import ru.perfumess.services.BrandService;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/public/brands")
@@ -31,6 +33,10 @@ public class BrandController {
     ) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
         Page<Brand> brandPage = brandService.findAll(pageable);
+        if (brandPage.isEmpty()){
+            log.info("[findAll] Brand page IS EMPTY");
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
         long totalElements = brandPage.getTotalElements();
         List<BrandDto> brandDtoList = brandMapper.toDtos(brandPage.toList());
         Page<BrandDto> brandDtoPage = new PageImpl<>(brandDtoList, pageable, totalElements);

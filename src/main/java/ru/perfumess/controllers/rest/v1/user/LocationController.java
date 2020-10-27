@@ -3,7 +3,9 @@ package ru.perfumess.controllers.rest.v1.user;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.perfumess.dto.CustomerDto;
 import ru.perfumess.dto.LocationDto;
 import ru.perfumess.mappers.CustomerMapper;
 import ru.perfumess.mappers.LocationMapper;
@@ -45,12 +47,16 @@ public class LocationController {
     }
 
     @DeleteMapping("/location/{id}")
-    public Response removeLocation(
-            @PathVariable Long id,
+    public ResponseEntity<CustomerDto> removeLocation(
+            @PathVariable("id") Location location,
             Principal principal) {
         Customer customer = customerService.getByUsername(principal.getName());
-        customer.removeLocation(locationService.getOne(id));
+        if (location == null || customer == null) {
+            log.info("[removeLocation] Location or Customer NOT FOUND");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        customer.removeLocation(location);
         Customer customerUpdate = customerService.save(customer);
-        return new Response(customerMapper.toDto(customerUpdate), HttpStatus.OK);
+        return new ResponseEntity<>(customerMapper.toDto(customerUpdate), HttpStatus.OK);
     }
 }

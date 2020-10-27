@@ -54,7 +54,8 @@ public class UserController {
     @GetMapping
     public ResponseEntity<CustomerDto> getAuthCustomerData(Principal principal) {
         Customer customer = customerService.getByUsername(principal.getName());
-        if (customer == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        if (customer == null)
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         return new ResponseEntity<>(customerMapper.toDto(customer), HttpStatus.OK);
     }
 
@@ -80,10 +81,12 @@ public class UserController {
             @RequestBody CustomerDto customerDto,
             Principal principal) {
         Customer customer = customerService.getByUsername(principal.getName());
+        if (customer == null){
+            log.info("[updateAuthData] Customer NOT FOUND");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         Customer updatedCustomer = customerService.update(customer, customerDto);
-        return updatedCustomer != null
-                ? new ResponseEntity<>(customerMapper.toDto(updatedCustomer), HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(customerMapper.toDto(updatedCustomer), HttpStatus.OK);
     }
 
     /**
@@ -114,9 +117,11 @@ public class UserController {
     @DeleteMapping
     public Response deleteAuthCustomer(Principal principal) {
         Customer customer = customerService.getByUsername(principal.getName());
-        if (customer == null) return new Response(HttpStatus.UNAUTHORIZED);
+        if (customer == null) {
+            log.info("[deleteAuthCustomer] Customer NOT FOUND");
+            return new Response(HttpStatus.UNAUTHORIZED);
+        }
         customerService.delete(customer);
-        log.info("[delete] Delete customer (username: {}) successfully", customer.getUsername());
         return new Response(HttpStatus.OK);
     }
 }
