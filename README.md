@@ -2,21 +2,27 @@
 
     Base URL /api/v1/
 
-#### Auth (public)
+### PUBLIC CONTROLLERS
+
+--------------
+#### Authentication
  * POST /login
  * POST /registration
 
-#### Product (public) /public/products
+#### Product /public/products
  * GET
  * GET /{id}
 
-#### Brand (public) /public/brands
+#### Brand /public/brands
  * GET
 
-#### Photo (public) /public/photos
+#### Photo /public/photos
  * GET 
- 
-#### Basket (user) /user/basket
+
+### USER CONTROLLERS
+
+--------------
+#### Basket /user/basket
  * GET
  * PUT <br/>
    Params
@@ -25,21 +31,24 @@
    Params
     * productId
     
-#### User (user) /user
+#### User /user
  * GET
  * PUT
  * DELETE
  * PUT /password
  * POST /location
  * DELETE /location/{id}
-   
-#### Customer (admin) /admin/customers
+
+### ADMIN CONTROLLERS
+
+-----------------
+#### Customer /admin/customers
  * GET
  * GET /{id}
  * PUT /{id}
  * DELETE /{id}
  
-#### Product (admin) /admin/products
+#### Product /admin/products
  * POST
     * brandId
     * photoId
@@ -47,9 +56,9 @@
  * PUT /{id}/photo/{photoId}
  * DELETE /{id}/photo/{photoId}
  
-#### Photo (admin) /photos
+#### Photo /admin/photos
  * POST /upload
  
-#### Brand (admin) /admin/brands
+#### Brand /admin/brands
  * POST
  * PUT /{id}

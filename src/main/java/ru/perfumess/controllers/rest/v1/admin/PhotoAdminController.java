@@ -20,7 +20,7 @@ import ru.perfumess.services.PhotoService;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "api/v1/photos/")
+@RequestMapping(path = "api/v1/admin/photos/")
 public class PhotoAdminController {
 
     @Value("${base.url.image}")
